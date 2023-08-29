@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\DayController;
 use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\ProfileController;
@@ -16,6 +17,7 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::apiResource('roles', RoleController::class);
     Route::apiResource('permissions', PermissionController::class);
     Route::get('category-list', [CategoryController::class, 'getList']);
+    Route::get('day-list', [DayController::class, 'getDay']);
     Route::get('/user', [ProfileController::class, 'user']);
     Route::put('/user', [ProfileController::class, 'update']);
 
@@ -32,6 +34,7 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
 });
 
 Route::get('category-list', [CategoryController::class, 'getList']);
+Route::get('day-list', [DayController::class, 'getDay']);
 Route::get('get-posts', [PostController::class, 'getPosts']);
 Route::get('get-category-posts/{id}', [PostController::class, 'getCategoryByPosts']);
 Route::get('get-post/{id}', [PostController::class, 'getPost']);

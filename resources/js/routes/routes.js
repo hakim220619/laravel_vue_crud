@@ -168,6 +168,12 @@ export default [
                 component: () => import('../views/admin/users/index.vue'),
                 meta: { breadCrumb: 'Users' }
             },
+            {
+                name: 'day.index',
+                path: 'day',
+                component: () => import('../views/admin/day/index.vue'),
+                meta: {breadCrumb: 'Day'}
+            }
         ]
     },
     {

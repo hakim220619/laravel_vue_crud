@@ -2,7 +2,7 @@ import axios from 'axios'
 import { ref, inject } from 'vue'
 import { useRoute } from 'vue-router'
 
-export default function useDay() {
+export default function useDayes() {
     const dayes = ref([])
     const dayList = ref([])
     const day = ref({
@@ -17,14 +17,14 @@ export default function useDay() {
     const getDayes = async (
         page = 1,
         search_id = '',
-        search_title = '',
+        search_hari = '',
         search_global = '',
         search_column = 'created_at',
         search_direction = 'desc',
     ) => {
         axios.get('/api/dayes?page=' + page +
             '&search_id=' + search_id +
-            '&search_title=' + search_title +
+            '&search_hari=' + search_hari +
             '&search_global=' + search_global +
             '&search_column=' + search_column +
             '&search_direction=' + search_direction
@@ -39,6 +39,20 @@ export default function useDay() {
         })
     }
 
+    const storeDay = async (day) => {
+        if (isLoading.value) return
+        isLoading.value = true
+        validationErrors.value = {}
+
+        axios.post('/api/day', day).then(response => {
+            router.push({name: 'day.index'})
+            swal({
+                icon: 'success',
+                title: "Day saved Successfully"
+            })
+        })
+    }
+
     const getDayList = async () => {
         axios.get('/api/day-list').then(response => {
             dayList.value = response.data.data
@@ -49,6 +63,7 @@ export default function useDay() {
         dayes,
         day,
         getDayes,
+        storeDay,
         getDayList,
         getDay,
         validationErrors,
