@@ -2,11 +2,11 @@ import Cookies from 'js-cookie'
 import store from "../store";
 
 const AuthenticatedLayout = () => import('../layouts/Authenticated.vue')
-const GuestLayout = ()  => import('../layouts/Guest.vue');
+const GuestLayout = () => import('../layouts/Guest.vue');
 
-const PostsIndex  = ()  => import('../views/admin/posts/Index.vue');
-const PostsCreate  = ()  => import('../views/admin/posts/Create.vue');
-const PostsEdit  = ()  => import('../views/admin/posts/Edit.vue');
+const PostsIndex = () => import('../views/admin/posts/Index.vue');
+const PostsCreate = () => import('../views/admin/posts/Create.vue');
+const PostsEdit = () => import('../views/admin/posts/Edit.vue');
 
 function requireLogin(to, from, next) {
     let isLogin = false;
@@ -172,8 +172,20 @@ export default [
                 name: 'day.index',
                 path: 'day',
                 component: () => import('../views/admin/day/index.vue'),
-                meta: {breadCrumb: 'Day'}
-            }
+                meta: { breadCrumb: 'Day' }
+            },
+            {
+                name: 'day.create',
+                path: 'day/create',
+                component: () => import('../views/admin/day/create.vue'),
+                meta: { breadCrumb: 'Day Create' }
+            },
+            {
+                name: 'day.edit',
+                path: 'day/edit/:id',
+                component: () => import('../views/admin/day/edit.vue'),
+                meta: { breadCrumb: 'Day Edit' }
+            },
         ]
     },
     {

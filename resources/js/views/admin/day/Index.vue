@@ -3,8 +3,12 @@
         <div class="col-md-12">
             <div class="card border-0">
                 <div class="card-header bg-transparent">
-                    <h5 class="float-start">Day</h5>
-                    <router-link v-if="can('day-create')" :to="{ name: 'dayes.create' }"></router-link>
+                    <h5 class="float-start">Days</h5>
+
+                    <router-link v-if="can('day-create')" :to="{ name: 'day.create' }"
+                        class="btn btn-primary btn-sm float-end">
+                        Create Day
+                    </router-link>
                 </div>
                 <div class="card-body shadow-sm">
                     <div class="mb-4">
@@ -99,7 +103,7 @@
                                     </td>
                                     <td class="px-6 py-4 text-sm">
                                         <router-link v-if="can('day-edit')"
-                                            :to="{ name: 'categories.edit', params: { id: post.id } }"
+                                            :to="{ name: 'day.edit', params: { id: post.id } }"
                                             class="badge bg-primary">Edit
                                         </router-link>
                                         <a href="#" v-if="can('day-delete')" @click.prevent="deleteCategory(post.id)"

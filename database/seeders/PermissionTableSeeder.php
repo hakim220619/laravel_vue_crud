@@ -32,7 +32,8 @@ class PermissionTableSeeder extends Seeder
             'category-create',
             'category-edit',
             'category-delete',
-            'day-list'
+            'day-list',
+            'day-create'
         ];
 
         foreach ($permissions as $permission) {

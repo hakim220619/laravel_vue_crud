@@ -26,13 +26,13 @@ class DayController extends Controller
         $categories = Day::when(request('search_id'), function ($query) {
             $query->where('id', request('search_id'));
         })
-            ->when(request('search_title'), function ($query) {
-                $query->where('name', 'like', '%' . request('search_title') . '%');
+            ->when(request('search_hari'), function ($query) {
+                $query->where('hari', 'like', '%' . request('search_hari') . '%');
             })
             ->when(request('search_global'), function ($query) {
                 $query->where(function ($q) {
                     $q->where('id', request('search_global'))
-                        ->orWhere('name', 'like', '%' . request('search_global') . '%');
+                ->orWhere('hari', 'like', '%' . request('search_global') . '%');
                 });
             })
             ->orderBy($orderColumn, $orderDirection)
@@ -43,7 +43,11 @@ class DayController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(StoreDayRequest $request)
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreDayRequest $request)
     {
         $this->authorize('day-create');
         $day = Day::create($request->validated());
@@ -52,19 +56,12 @@ class DayController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Day $day)
     {
-        //
+        $this->authorize('day-edit');
+        return new DayResource($day);
     }
 
     /**
@@ -89,5 +86,9 @@ class DayController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function getDay()
+    {
+        return DayResource::collection(Day::all());
     }
 }

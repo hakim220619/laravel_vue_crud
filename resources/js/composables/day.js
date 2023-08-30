@@ -44,13 +44,19 @@ export default function useDayes() {
         isLoading.value = true
         validationErrors.value = {}
 
-        axios.post('/api/day', day).then(response => {
-            router.push({name: 'day.index'})
+        axios.post('/api/dayes', day).then(response => {
+            router.push({ name: 'day.index' })
             swal({
                 icon: 'success',
                 title: "Day saved Successfully"
             })
+        }).catch(error => {
+            if (error.response?.data) {
+                validationErrors.value = error.response.data.error
+            }
         })
+
+
     }
 
     const getDayList = async () => {
