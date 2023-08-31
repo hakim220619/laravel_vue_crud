@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Day extends Model
 {
     use HasFactory;
-    protected $fillable = ['hari'];
+    protected $fillable = ['hari', 'bulan', 'tahun'];
 }

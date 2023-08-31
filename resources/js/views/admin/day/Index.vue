@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <div class="card border-0">
                 <div class="card-header bg-transparent">
-                    <h5 class="float-start">Days</h5>
+                    <h5 class="float-start">Day</h5>
 
                     <router-link v-if="can('day-create')" :to="{ name: 'day.create' }"
                         class="btn btn-primary btn-sm float-end">

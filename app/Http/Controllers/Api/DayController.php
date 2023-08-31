@@ -49,9 +49,10 @@ class DayController extends Controller
      */
     public function store(StoreDayRequest $request)
     {
+        // dd($request->all());
         $this->authorize('day-create');
         $day = Day::create($request->validated());
-
+// dd($day);
         return new DayResource($day);
     }
 

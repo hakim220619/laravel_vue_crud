@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { ref, inject } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 
 export default function useDayes() {
     const dayes = ref([])
@@ -9,7 +9,7 @@ export default function useDayes() {
         hari: ''
     })
 
-    const router = useRoute()
+    const router = useRouter()
     const validationErrors = ref({})
     const isLoading = ref(false)
     const swal = inject('$swal')
@@ -43,8 +43,16 @@ export default function useDayes() {
         if (isLoading.value) return
         isLoading.value = true
         validationErrors.value = {}
+        
+        let serializedDay = new FormData()
+        for (let item in day) {
+            if (day.hasOwnProperty(item)) {
+                serializedDay.append(item, day[item])
+            }
+            console.log(serializedDay);
+        }
 
-        axios.post('/api/dayes', day).then(response => {
+        axios.post('/api/dayes', serializedDay).then(response => {
             router.push({ name: 'day.index' })
             swal({
                 icon: 'success',
@@ -54,7 +62,7 @@ export default function useDayes() {
             if (error.response?.data) {
                 validationErrors.value = error.response.data.error
             }
-        })
+        }).finally(() => isLoading.value = false)
 
 
     }
@@ -62,6 +70,7 @@ export default function useDayes() {
     const getDayList = async () => {
         axios.get('/api/day-list').then(response => {
             dayList.value = response.data.data
+            // console.log(response.data.data);
         })
     }
     return {

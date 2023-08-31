@@ -19,6 +19,34 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="mb-3">
+                            <label for="post-name" class="form-label">
+                                Bulan
+                            </label>
+                            <input v-model="day.bulan" id="post-bulan" type="text" class="form-control">
+                            <div class="text-danger mt-1">
+                                {{ errors.bulan }}
+                            </div>
+                            <div class="text-danger mt-1">
+                                <div v-for="message in validationErrors?.bulan">
+                                    {{ message }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="post-name" class="form-label">
+                                tahun
+                            </label>
+                            <input v-model="day.tahun" id="post-tahun" type="text" class="form-control">
+                            <div class="text-danger mt-1">
+                                {{ errors.tahun }}
+                            </div>
+                            <div class="text-danger mt-1">
+                                <div v-for="message in validationErrors?.hari">
+                                    {{ message }}
+                                </div>
+                            </div>
+                        </div>
                         <!-- Buttons -->
                         <div class="mt-4">
                             <button :disabled="isLoading" class="btn btn-primary">
@@ -49,11 +77,13 @@ const schema = {
 const { validate, errors } = useForm({ validationSchema: schema })
 // Define actual fields for validation
 const { value: hari } = useField('hari', null, { initialValue: '' });
-const { storeCategory, validationErrors, isLoading } = useDayes()
-const category = reactive({
-    hari
+const { value: bulan } = useField('bulan', null, { initialValue: '' });
+const { value: tahun } = useField('tahun', null, { initialValue: '' });
+const { storeDay, validationErrors, isLoading } = useDayes()
+const day = reactive({
+    hari, bulan, tahun
 })
 function submitForm() {
-    validate().then(form => { if (form.valid) storeCategory(category) })
+    validate().then(form => { if (form.valid) storeDay(day) })
 }
 </script>
