@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreDayRequest;
-use App\Http\Resources\DayResource;
 use App\Models\Day;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Resources\DayResource;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreDayRequest;
 
 class DayController extends Controller
 {
@@ -52,33 +53,43 @@ class DayController extends Controller
         // dd($request->all());
         $this->authorize('day-create');
         $day = Day::create($request->validated());
-// dd($day);
+        // dd($day);
         return new DayResource($day);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Day $day)
+    public function show($id)
     {
-        $this->authorize('day-edit');
-        return new DayResource($day);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        $data = DB::table('days')->where('id', $id)->first();
+        // dd($id);
+        return response()->json(
+            [
+                'status' => 200,
+                'data' => $data
+            ]
+        );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update($id, StoreDayRequest $request)
     {
-        //
+        // dd($id);
+        $this->authorize('day-edit');
+        $data = [
+            'hari' => $request->hari,
+            'bulan' => $request->bulan,
+            'tahun' => $request->tahun,
+        ];
+        DB::table('days')->where('id', $id)->update($data);
+        return response()->json(
+            [
+                'status' => 200,
+            ]
+        );
     }
 
     /**
@@ -86,7 +97,13 @@ class DayController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $data = DB::table('days')->where('id', $id)->delete();
+        // dd($id);
+        return response()->json(
+            [
+                'status' => 200,
+            ]
+        );
     }
     public function getDay()
     {

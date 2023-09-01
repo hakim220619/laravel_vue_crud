@@ -34,8 +34,9 @@ export default function useDayes() {
     }
 
     const getDay = async (id) => {
-        axios.get('/api/dayes' + id).then(response => {
+        axios.post('/api/get-day/' + id).then(response => {
             day.value = response.data.data
+            console.log(response.data.data);
         })
     }
 
@@ -49,7 +50,7 @@ export default function useDayes() {
             if (day.hasOwnProperty(item)) {
                 serializedDay.append(item, day[item])
             }
-            console.log(serializedDay);
+            // console.log(serializedDay);
         }
 
         axios.post('/api/dayes', serializedDay).then(response => {
@@ -67,6 +68,69 @@ export default function useDayes() {
 
     }
 
+    const updateDay = async (day) => {
+        console.log(day);
+        if (isLoading.value) return;
+        isLoading.value = true
+        validationErrors.value = {}
+        // console.log(day);
+        let serializedDay = new FormData()
+        for (let item in day) {
+            if (day.hasOwnProperty(item)) {
+                serializedDay.append(item, day[item])
+            }
+            // console.log(serializedDay);
+        }
+
+        axios.post('/api/update-day/' + day.id, serializedDay)
+            .then(response => {
+                router.push({ name: 'day.index' })
+                swal({
+                    icon: 'success',
+                    title: 'Day updated successfully'
+                })
+            })
+            .catch(error => {
+                if (error.response?.data) {
+                    validationErrors.value = error.response.data.errors
+                }
+            })
+            .finally(() => isLoading.value = false)
+    }
+    const deleteDay = async (id) => {
+        swal({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this action!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            confirmButtonColor: '#ef4444',
+            timer: 20000,
+            timerProgressBar: true,
+            reverseButtons: true
+        })
+            .then(result => {
+                if (result.isConfirmed) {
+                    axios.delete('/api/day-delete/' + id)
+                        .then(response => {
+                            getDayes()
+                            router.push({ name: 'day.index' })
+                            swal({
+                                icon: 'success',
+                                title: 'Day deleted successfully'
+                            })
+                        })
+                        .catch(error => {
+                            swal({
+                                icon: 'error',
+                                title: 'Something went wrong'
+                            })
+                        })
+                }
+            })
+    }
+
+
     const getDayList = async () => {
         axios.get('/api/day-list').then(response => {
             dayList.value = response.data.data
@@ -78,7 +142,10 @@ export default function useDayes() {
         dayes,
         day,
         getDayes,
+        deleteDay,
+
         storeDay,
+        updateDay,
         getDayList,
         getDay,
         validationErrors,

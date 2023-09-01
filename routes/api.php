@@ -37,6 +37,9 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
 Route::get('category-list', [CategoryController::class, 'getList']);
 Route::get('day-list', [DayController::class, 'getDay']);
 Route::post('day-store', [DayController::class, 'store']);
+Route::post('get-day/{id}', [DayController::class, 'show']);
+Route::post('update-day/{id}', [DayController::class, 'update']);
+Route::DELETE('day-delete/{id}', [DayController::class, 'destroy']);
 Route::get('get-posts', [PostController::class, 'getPosts']);
 Route::get('get-category-posts/{id}', [PostController::class, 'getCategoryByPosts']);
 Route::get('get-post/{id}', [PostController::class, 'getPost']);

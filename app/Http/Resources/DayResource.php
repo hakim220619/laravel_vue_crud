@@ -19,7 +19,7 @@ class DayResource extends JsonResource
             'hari' => $this->hari,
             'bulan' => $this->bulan,
             'tahun' => $this->tahun,
-            'created_at' => $this->created_at->toDateString()
+            // 'created_at' => $this->created_at->toDateString()
         ];
     }
 }

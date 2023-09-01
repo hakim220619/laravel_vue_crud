@@ -106,7 +106,7 @@
                                             :to="{ name: 'day.edit', params: { id: post.id } }"
                                             class="badge bg-primary">Edit
                                         </router-link>
-                                        <a href="#" v-if="can('day-delete')" @click.prevent="deleteCategory(post.id)"
+                                            <a href="#" v-if="can('day-delete')" @click.prevent="deleteDay(post.id)"
                                             class="ms-2 badge bg-danger">Delete</a>
                                     </td>
                                 </tr>
@@ -134,7 +134,7 @@ const search_hari = ref('')
 const search_global = ref('')
 const orderColumn = ref('created_at')
 const orderDirection = ref('desc')
-const { dayes, getDayes } = useDayes()
+const { dayes, getDayes, deleteDay } = useDayes()
 const { can } = useAbility()
 onMounted(() => {
     getDayes()
